@@ -1,0 +1,10 @@
+{
+    "auth_email": "AUTH EMAIL",
+    "auth_token": "AUTH TOKEN",
+    "base_url": "https://www.ncdc.noaa.gov",
+    "data_endpoint": "/cdo-web/api/v2/data",
+    "request_limit": 1000,
+    "file_line_limit": 10000,
+    "output_dir": "OUTPUT DIR",
+    "retry_limit": 3
+}

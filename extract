@@ -1,0 +1,8 @@
+#!venv/bin/python
+
+from datetime import date
+
+from extractor import Extractor
+
+extractor =  Extractor("GSOM")
+extractor.extract_date_range(date(2018, 1, 1), date(2018, 1, 7))
