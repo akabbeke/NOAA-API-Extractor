@@ -7,7 +7,7 @@ After cloning the repo simply run from within the project dir:
 
 ```
 virtualenv -p python3 venv
-venv/lib/activate
+source venv/lib/activate
 pip install -r requirements.txt
 cp _config.json config.json
 ```
