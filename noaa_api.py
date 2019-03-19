@@ -11,19 +11,26 @@ import config
 BASE_URL = 'https://www.ncdc.noaa.gov/cdo-web/api/v2/'
 
 
-class RetryLimit(Exception):
+class RetryLimitExceeded(Exception):
   pass
 
 
 def retry_wrapper(func):
+  # This enables non-200 responses to be retried
+
+  # functools.wraps enables exceptions to properly propogate
   @functools.wraps(func)
   def wrapper(*args, **kwargs):
     for i in range(config.retry_limit):
       request = func(*args, **kwargs)
-      print(request.status_code)
+
+      # If the request was ok then return the request object
       if request.status_code == requests.codes.ok:
         return request
-    raise RetryLimit()
+
+    # If the retry atttempts are surpassed then raise a RetryLimit
+    # exception
+    raise RetryLimitExceeded()
   return wrapper
 
 

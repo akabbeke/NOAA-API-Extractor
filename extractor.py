@@ -1,4 +1,5 @@
 import json
+import logging
 
 from datetime import date
 from datetime import timedelta
@@ -7,6 +8,7 @@ from os import path
 import config
 
 from noaa_api import NOAADataset
+from noaa_api import RetryLimitExceeded
 
 class Extractor(object):
   def __init__(self, datesetid):
@@ -22,7 +24,11 @@ class Extractor(object):
 
     # For each day in the range extract the data for that date
     for i in range((end_date - start_date).days + 1):
-      self._extract_date(start_date + timedelta(days=i))
+      try:
+        self._extract_date(start_date + timedelta(days=i))
+      except RetryLimitExceeded:
+        logging.error("Could not fetch data for {}".format(start_date + timedelta(days=i)))
+
 
   def _extract_date(self, date_to_fetch):
     data = []
@@ -43,7 +49,7 @@ class Extractor(object):
           # remove the data written out from the data list
           data = data[config.file_line_limit:]
 
-    # write out an remainder data
+    # write out any remainder data
     self._write_file(date_to_fetch, file_count, data)
 
   def _write_file(self, date_to_fetch, count, date_data):
