@@ -1,5 +1,5 @@
-# MammothTest
-Coding test for Mammoth eng
+# NOAA API Extractor
+This extracts datasets from the NOAA API
 
 # Setup 
 
